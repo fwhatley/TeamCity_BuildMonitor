@@ -1,3 +1,9 @@
+FW - Instructions How to Locally Serve App for FC
+==============
+- download this project and build it with VS
+- navigate to the folder that contains the built dll
+- run `RUNDLL32.EXE BuildMonitor.dlll`. That will serve the app at [http://localhost:63293/](http://localhost:63293/)
+
 TeamCity BuildMonitor
 ===================
 
