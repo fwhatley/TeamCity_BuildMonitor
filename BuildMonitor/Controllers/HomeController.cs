@@ -1,13 +1,13 @@
-﻿using System.Configuration;
+﻿using BuildMonitor.Helpers;
+using BuildMonitor.Models.Home;
+using System.Configuration;
 using System.IO;
 using System.Linq;
 using System.Web.Mvc;
-using BuildMonitor.Helpers;
-using BuildMonitor.Models.Home;
 
 namespace BuildMonitor.Controllers
 {
-	public class HomeController : Controller
+    public class HomeController : Controller
 	{
 		private readonly IBuildMonitorModelHandler modelHandler;
 

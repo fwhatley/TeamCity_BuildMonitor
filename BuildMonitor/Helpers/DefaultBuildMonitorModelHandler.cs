@@ -3,7 +3,7 @@ using Newtonsoft.Json;
 
 namespace BuildMonitor.Helpers
 {
-	public class DefaultBuildMonitorModelHandler : BuildMonitorModelHandlerBase
+    public class DefaultBuildMonitorModelHandler : BuildMonitorModelHandlerBase
 	{
 		public override BuildMonitorViewModel GetModel()
 		{
@@ -19,13 +19,46 @@ namespace BuildMonitor.Helpers
 
 				project.Id = projectJson.id;
 				project.Name = projectJson.name;
-				AddBuilds(ref project);
 
-				model.Projects.Add(project);
+			    if (isProjectManagedByFcTeam(project.Name))
+			    {
+			        AddBuilds(ref project);
+			        model.Projects.Add(project);
+                }
+
 			}
 
 			return model;
 		}
+
+	    private bool isProjectManagedByFcTeam(string projectName)
+	    {
+	        var FcUiModulesProjectPrefix = "UI Module EC";
+	        var FcSeleniumAutomationProjectPrefix = "UI Automation Test";
+	        var FcApiTestingProject = "API Testing"; // TODO: figure out why automation tests are not coming back in the projects array list
+	        var msvcFcProjectPrefix = "msvc-";  // TODO: pull down all services. Right now there is null ref exception if we try to pull all services
+	        var sandFcProjectPrefix = "sand-";
+	        var utilFcProjectPrefix = "Util-";
+
+
+            // only add builds for FC
+            if (projectName.Contains(FcUiModulesProjectPrefix) ||
+	            projectName.Contains(FcSeleniumAutomationProjectPrefix) ||
+                projectName.Contains(FcApiTestingProject) )
+	        {
+
+	            var AbsTimeSelenumAutomationProjectPrefix = "UI Automation Testing";
+                if (projectName.Contains(AbsTimeSelenumAutomationProjectPrefix))
+	            {
+	                return false; // don't track AbsTime project labeled similar to FC
+	            }
+
+
+	            return true;
+	        }
+
+	        return false;
+	    }
 
 		private void AddBuilds(ref Project project)
 		{
